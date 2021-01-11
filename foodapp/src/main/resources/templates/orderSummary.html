@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet" type="text/css"/>
+        <title>Order Summary</title>
+    </head>
+    <body>
+        <div class="page">
+            <div class="center-text margin-12px">
+                <span>
+                    Narudžba dolazi za 25 min
+                </span>
+            </div>
+            <div>
+                <table class="order-table">
+                    <thead>
+                    <tr class="row-border">
+                        <th> Ime</th>
+                        <th> Cijena</th>
+                        <th> Sastojci</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:if="${orderItems.empty}" class="row-border">
+                        <td colspan="3" style="width: 500px"> Prazno</td>
+                    </tr>
+
+                    <tr th:each="item : ${orderItems}" class="row-border">
+                        <td hidden="hidden"><span th:text="${item.itemId}">  </span></td>
+                        <td><span th:text="${item.name}">  </span></td>
+                        <td><span th:text="${item.price}">  </span></td>
+                        <td><span th:text="${item.ingredients}">  </span></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="center-text margin-12px">
+                    <a th:href="@{/home/(menuId=${menuId} ,orderId=${orderId})}">
+                        Povratak
+                    </a>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

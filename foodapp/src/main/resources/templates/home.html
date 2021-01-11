@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet" type="text/css"/>
+        <title>Home</title>
+    </head>
+    <body>
+        <div class="page">
+            <table class="menu-table">
+                <thead>
+                <tr class="row-border">
+                    <th> Ime</th>
+                    <th> Cijena</th>
+                    <th> Sastojci</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${items.empty}" class="row-border">
+                    <td colspan="3" style="width: 500px">Prazno</td>
+                </tr>
+                <tr th:each="item : ${items}" class="row-border">
+                    <td><span th:text="${item.name}">  </span></td>
+                    <td><span th:text="${item.price}">  </span></td>
+                    <td><span th:text="${item.ingredients}">  </span></td>
+                    <td>
+                        <form method="POST" th:action="@{/home/addItem}" th:object="${itemForm}">
+                            <input type="hidden" th:value="${item.itemId}" name="itemId"/>
+                            <input type="hidden" th:value="${item.name}" name="name"/>
+                            <input type="hidden" th:value="${item.price}" name="price"/>
+                            <input type="hidden" th:value="${item.ingredients}" name="ingredients"/>
+                            <input type="hidden" th:value="${menuId}" name="menuId"/>
+                            <input type="hidden" th:value="${orderId}" name="orderId"/>
+                            <button class="button-add" type="submit">Dodaj</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <table class="order-table-home">
+                <thead>
+                <tr class="row-border">
+                    <th> Ime</th>
+                    <th> Cijena</th>
+                    <th> Sastojci</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${orderItems.empty}" class="row-border">
+                    <td colspan="3" style="width: 500px"> Prazno</td>
+                </tr>
+
+                <tr th:each="item : ${orderItems}" class="row-border">
+                    <td hidden="hidden"><span th:text="${item.itemId}">  </span></td>
+                    <td><span th:text="${item.name}">  </span></td>
+                    <td><span th:text="${item.price}">  </span></td>
+                    <td><span th:text="${item.ingredients}">  </span></td>
+                    <td>
+                        <form method="POST" th:action="@{/home/removeItem}" th:object="${itemForm}">
+                            <input type="hidden" th:value="${item.itemId}" name="itemId"/>
+                            <input type="hidden" th:value="${menuId}" name="menuId"/>
+                            <input type="hidden" th:value="${orderId}" name="orderId"/>
+                            <button type="submit">Ukloni</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div>
+                <form method="POST" th:action="@{/submitOrder}" th:object="${itemForm}">
+                    <input type="hidden" th:value="${menuId}" name="menuId"/>
+                    <input type="hidden" th:value="${orderId}" name="orderId"/>
+                    <button class="button-order" type="submit" style="float: right">Naruči</button>
+                </form>
+                <div>
+                    <form method="POST" th:action="@{/logout}">
+                        <button class="button-order" type="submit">Logout</button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer">
+                <a th:if="${admin}" th:href="@{/newItem/(menuId=${menuId} ,orderId=${orderId})}">
+                    Dodaj jelo
+                </a>
+                <span>   </span>
+                <a th:if="${admin}" th:href="@{/deleteItem/(menuId=${menuId} ,orderId=${orderId})}">
+                    Ukloni jelo
+                </a>
+            </div>
+        </div>
+    </body>
+</html>

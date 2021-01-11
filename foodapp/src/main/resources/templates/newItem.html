@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet" type="text/css"/>
+        <title>New Item</title>
+    </head>
+    <body>
+        <div class="page-login">
+            <form th:action="@{/newItem}" method="post" th:object="${itemForm}">
+                <div class="margin-12px"><input type="text" placeholder="menuId" name="menuId"/></div>
+                <div class="margin-12px"><input type="text" placeholder="itemId" name="itemId"/></div>
+                <div class="margin-12px"><input type="text" placeholder="name" name="name"/></div>
+                <div class="margin-12px"><input type="text" placeholder="price" name="price"/></div>
+                <div class="margin-12px"><input type="text" placeholder="ingredients" name="ingredients"/></div>
+                <div class="margin-12px"><input type="hidden" th:value="${orderId}" name="orderId"/></div>
+                <div class="margin-12px center-text"> <button class="button-submit" type="submit">Dodaj</button> </div>
+            </form>
+        </div>
+    </body>
+</html>

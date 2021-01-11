@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet" type="text/css"/>
+        <title>Order Confirmation</title>
+    </head>
+    <body>
+        <div class="page">
+            <div class="center-text"><h2>Provjera narudžbe</h2></div>
+            <table class="order-table">
+                <thead>
+                <tr class="row-border">
+                    <th> Ime</th>
+                    <th> Cijena</th>
+                    <th> Sastojci</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${orderItems.empty}" class="row-border">
+                    <td colspan="3" style="width: 500px"> Prazno</td>
+                </tr>
+
+                <tr th:each="item : ${orderItems}" class="row-border">
+                    <td hidden="hidden"><span th:text="${item.itemId}">  </span></td>
+                    <td><span th:text="${item.name}">  </span></td>
+                    <td><span th:text="${item.price}">  </span></td>
+                    <td><span th:text="${item.ingredients}">  </span></td>
+                    <td>
+                        <form method="POST" th:action="@{/order/removeItem}" th:object="${itemForm}">
+                            <input type="hidden" th:value="${item.itemId}" name="itemId"/>
+                            <input type="hidden" th:value="${menuId}" name="menuId"/>
+                            <input type="hidden" th:value="${orderId}" name="orderId"/>
+                            <button type="submit">Ukloni</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="center-text">
+                <form method="POST" th:action="@{/confirmOrder}" th:object="${itemForm}">
+                    <input type="hidden" th:value="${menuId}" name="menuId"/>
+                    <input type="hidden" th:value="${orderId}" name="orderId"/>
+                    <button class="button-add margin-12px" type="submit">Potvrdi narudžbu</button>
+                </form>
+            </div>
+            <div class="center-text">
+                <form method="POST" th:action="@{/cancelOrder}" th:object="${itemForm}">
+                    <input type="hidden" th:value="${menuId}" name="menuId"/>
+                    <input type="hidden" th:value="${orderId}" name="orderId"/>
+                    <button class="margin-12px" type="submit">Otkaži narudžbu</button>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>
